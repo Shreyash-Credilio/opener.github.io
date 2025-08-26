@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Open App Example</title>
+  <script>
+    function openApp() {
+      var scheme = "myapp://home"; // custom scheme or deep link
+      var iosAppStore = "https://apps.apple.com/app/id123456789";
+      var androidPlayStore = "https://play.google.com/store/apps/details?id=com.example.myapp";
+
+      var now = Date.now();
+      var fallbackTimer;
+
+      // Detect platform
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      var isAndroid = /android/i.test(userAgent);
+      var isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+
+      // Try opening the app
+      var iframe = document.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = scheme;
+      document.body.appendChild(iframe);
+
+      // If not opened in 2s → redirect to store
+      fallbackTimer = setTimeout(function() {
+        if (isAndroid) {
+          window.location.href = androidPlayStore;
+        } else if (isIOS) {
+          window.location.href = iosAppStore;
+        }
+      }, 2000);
+
+      // Clear fallback if app opened successfully
+      window.onblur = function() {
+        clearTimeout(fallbackTimer);
+      };
+    }
+  </script>
+</head>
+<body>
+  <button onclick="openApp()">Open App</button>
+</body>
+</html>
