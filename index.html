@@ -185,7 +185,7 @@
         🚀 Open App
       </button>
 
-      <button class="btn btn-primary" onclick="openApp('dev-')">
+      <button class="btn btn-primary" onclick="openApp('https://dev-app.novio.in/sbm')">
         🚀 Open dev
       </button>
       
@@ -210,8 +210,7 @@
   </div>
 
   <script>
-    function openApp(flavor = "") {
-      var scheme = "https://dev-app.novio.in/sbm";
+    function openApp(dl = "https://app.novio.in/sbm") {
       var iosAppStore = "https://apps.apple.com/app/id123456789";
       var androidPlayStore = "https://play.google.com/store/apps/details?id=com.novio.customer";
 
@@ -224,10 +223,7 @@
 
       showStatus("Opening Novio app...", "success");
 
-      var iframe = document.createElement("iframe");
-      iframe.style.display = "none";
-      iframe.src = scheme;
-      document.body.appendChild(iframe);
+      window.location = dl;
 
       fallbackTimer = setTimeout(function() {
         if (isAndroid) {
