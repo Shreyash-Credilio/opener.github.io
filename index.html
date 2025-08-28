@@ -1,28 +1,230 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Open novio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novio App Launcher</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border-radius: 20px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: white;
+      font-weight: bold;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .button-grid {
+      display: grid;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      padding: 16px 24px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #333;
+      border: 2px solid #e9ecef;
+    }
+
+    .btn-secondary:hover {
+      background: #e9ecef;
+      transform: translateY(-2px);
+    }
+
+    .btn-success {
+      background: linear-gradient(45deg, #28a745, #20c997);
+      color: white;
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);
+    }
+
+    .btn-info {
+      background: linear-gradient(45deg, #17a2b8, #6f42c1);
+      color: white;
+    }
+
+    .btn-info:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(23, 162, 184, 0.3);
+    }
+
+    .btn-warning {
+      background: linear-gradient(45deg, #ffc107, #fd7e14);
+      color: white;
+    }
+
+    .btn-warning:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(255, 193, 7, 0.3);
+    }
+
+
+    .status {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+        margin: 10px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .btn {
+        padding: 14px 20px;
+        font-size: 15px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">N</div>
+    <h1>Novio App</h1>
+    <p class="subtitle">Your gateway to seamless experiences</p>
+    
+    <div class="button-grid">
+      <button class="btn btn-primary" onclick="openApp()">
+        🚀 Open App
+      </button>
+      
+      <button class="btn btn-success" onclick="openAppStore()">
+        📱 Download App
+      </button>
+      
+      <!-- <button class="btn btn-warning" onclick="contactSupport()">
+        💬 Support
+      </button> -->
+
+    </div>
+
+    <div class="features" id="features" style="display: none;">
+      <div class="feature">🚀 Fast & Secure</div>
+      <div class="feature">📱 Mobile Optimized</div>
+      <div class="feature">🔒 Privacy First</div>
+      <div class="feature">⚡ Instant Access</div>
+    </div>
+
+    <div class="status" id="status"></div>
+  </div>
+
   <script>
     function openApp() {
-      var scheme = "novio://app.novio.in/sbm"; // custom scheme or deep link
+      var scheme = "novio://app.novio.in/sbm";
       var iosAppStore = "https://apps.apple.com/app/id123456789";
       var androidPlayStore = "https://play.google.com/store/apps/details?id=com.novio.customer";
 
       var now = Date.now();
       var fallbackTimer;
 
-      // Detect platform
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
       var isAndroid = /android/i.test(userAgent);
       var isIOS = /iPhone|iPad|iPod/i.test(userAgent);
 
-      // Try opening the app
+      showStatus("Opening Novio app...", "success");
+
       var iframe = document.createElement("iframe");
       iframe.style.display = "none";
       iframe.src = scheme;
       document.body.appendChild(iframe);
 
-      // If not opened in 2s → redirect to store
       fallbackTimer = setTimeout(function() {
         if (isAndroid) {
           window.location.href = androidPlayStore;
@@ -31,14 +233,57 @@
         }
       }, 2000);
 
-      // Clear fallback if app opened successfully
       window.onblur = function() {
         clearTimeout(fallbackTimer);
       };
     }
+
+    function openAppStore() {
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      var isAndroid = /android/i.test(userAgent);
+      var isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+
+      if (isAndroid) {
+        window.open("https://play.google.com/store/apps/details?id=com.novio.customer", "_blank");
+      } else if (isIOS) {
+        window.open("https://apps.apple.com/app/id123456789", "_blank");
+      } else {
+        window.open("https://play.google.com/store/apps/details?id=com.novio.customer", "_blank");
+      }
+      showStatus("Opening app store...", "success");
+    }
+
+    function contactSupport() {
+      showStatus("Opening support chat...", "success");
+      // You can integrate with your support system here
+      setTimeout(() => {
+        window.open("mailto:support@novio.in?subject=Support Request", "_blank");
+      }, 1000);
+    }
+
+    function showStatus(message, type) {
+      var status = document.getElementById("status");
+      status.textContent = message;
+      status.className = "status " + type;
+      status.style.display = "block";
+      
+      setTimeout(() => {
+        status.style.display = "none";
+      }, 3000);
+    }
+
+    // Add some interactive effects
+    document.addEventListener('DOMContentLoaded', function() {
+      const buttons = document.querySelectorAll('.btn');
+      buttons.forEach(button => {
+        button.addEventListener('touchstart', function() {
+          this.style.transform = 'scale(0.95)';
+        });
+        button.addEventListener('touchend', function() {
+          this.style.transform = '';
+        });
+      });
+    });
   </script>
-</head>
-<body>
-  <button onclick="openApp()">Open App</button>
 </body>
 </html>
